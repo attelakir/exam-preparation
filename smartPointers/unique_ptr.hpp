@@ -1,5 +1,7 @@
 #ifndef EXAM_PREPARATION_UNIQUEPTR_HPP
 #define EXAM_PREPARATION_UNIQUEPTR_HPP
+#include <memory>
+
 template<class T>
 class unique_ptr {
     T* ptr = nullptr;
@@ -10,7 +12,7 @@ public:
         delete ptr;
     }
 
-    unique_ptr(unique_ptr<T>&& other) : ptr(nullptr) noexcept {
+    unique_ptr(unique_ptr<T>&& other)  noexcept : ptr(nullptr) {
         swap(other);
     }
 
@@ -25,15 +27,15 @@ public:
     }
 
     T* release() {
-        T* ans = m_ptr;
-        m_ptr = nullptr;
+        T* ans = ptr;
+        ptr = nullptr;
         return ans;
     }
 
     void swap(unique_ptr<T>&& other) {
         std::swap(ptr, other.ptr);
     }
-    
+
     T* operator->() {
         return ptr;
     }
