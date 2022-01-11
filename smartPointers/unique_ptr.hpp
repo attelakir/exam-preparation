@@ -1,6 +1,7 @@
 #ifndef EXAM_PREPARATION_UNIQUEPTR_HPP
 #define EXAM_PREPARATION_UNIQUEPTR_HPP
 #include <memory>
+#include <algorithm>
 
 template<class T>
 class unique_ptr {
