@@ -4,22 +4,19 @@ template<class T>
 class unique_ptr {
     T* ptr = nullptr;
 public:
-    unique_ptr() {
-        ptr = new T(nullptr);
-    }
+    unique_ptr() = default;
 
     ~unique_ptr() {
         delete ptr;
     }
 
-    unique_ptr(unique_ptr<T>&& other) noexcept {
-        ptr = new T(other->ptr);
-        other->~unique_ptr();
+    unique_ptr(unique_ptr<T>&& other) : ptr(nullptr) noexcept {
+        swap(other);
     }
 
     unique_ptr<T>& operator=(unique_ptr<T>&& other) noexcept {
-        ptr = new T(other->ptr);
-        other->unique_ptr();
+        swap(other);
+        return *this;
     }
 
     void reset(T* _ptr = nullptr) {
@@ -28,12 +25,15 @@ public:
     }
 
     T* release() {
-        return ptr;
+        T* ans = m_ptr;
+        m_ptr = nullptr;
+        return ans;
     }
 
     void swap(unique_ptr<T>&& other) {
-        std::swap(this, other);
+        std::swap(ptr, other.ptr);
     }
+    
     T* operator->() {
         return ptr;
     }
